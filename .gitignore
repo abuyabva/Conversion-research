@@ -1,0 +1,22 @@
+**/bin/
+**/obj/
+.env
+.env.*
+!.env.example
+.vs/
+.idea/
+*.user
+TestResults/
+artifacts/
+# Local recovery and diagnostic files
+backup-*/
+**/backup-*/
+*.zip
+*.log
+*.tmp
+*.bak
+.env.local
+*.pfx
+*.pem
+.DS_Store
+Thumbs.db

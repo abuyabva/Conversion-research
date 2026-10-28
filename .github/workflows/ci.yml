@@ -1,0 +1,39 @@
+name: Build and test
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Build
+        run: dotnet build tests/ConversionAgent.Tests/ConversionAgent.Tests.csproj -c Release
+      - name: Start synthetic PostgreSQL
+        run: docker compose up -d --wait db
+      - name: Unit and PostgreSQL integration tests
+        env:
+          TEST_POSTGRES: Host=127.0.0.1;Port=54329;Database=conversion;Username=demo;Password=local-synthetic-only
+        run: dotnet run --project tests/ConversionAgent.Tests -c Release --no-build
+      - name: Build and start application container
+        run: docker compose up -d --build app
+      - name: HTTP smoke test
+        shell: bash
+        run: |
+          for i in {1..30}; do
+            if curl -fsS http://127.0.0.1:8080/api/health; then break; fi
+            sleep 2
+          done
+          curl -fsS http://127.0.0.1:8080/ > /dev/null
+          curl -fsS -H 'Content-Type: application/json' --data-binary @docs/example-request.json http://127.0.0.1:8080/api/chat | jq -e '.status == "complete" and .trace[2].result.rows[0].purchasers == 910'
+      - name: Container logs
+        if: failure()
+        run: docker compose logs --no-color
+      - name: Stop test containers
+        if: always()
+        run: docker compose down

@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="ru">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Conversion Lab · AI-агент</title><link rel="stylesheet" href="style.css"><script defer src="app.js?v=evidence2"></script></head>
+<body>
+<main>
+  <header><span class="brand">CONVERSION LAB <span class="tag">учебный проект</span></span><span id="mode">Подключение…</span></header>
+  <section class="hero"><p class="eyebrow">От вопроса к проверяемой гипотезе</p><h1>Что изменилось<br>в конверсии?</h1><p>Воронка, сегменты и прозрачный журнал инструментов.<br>Наблюдения подтверждаем числами. Причины проверяем отдельно.</p></section>
+  <aside id="notice">Синтетические данные: 5–18 октября 2026, UTC. Оплата / посещение — основная метрика.</aside>
+  <form id="form">
+    <label for="question">Вопрос к данным</label>
+    <textarea id="question" maxlength="2000" required>Сравни конверсию в оплату за выбранные периоды и найди сегмент с наибольшим снижением по устройству и источнику трафика.</textarea>
+    <div class="presets"><button type="button" id="example">Подставить периоды демо</button><button type="button" id="clear">Очистить периоды</button></div>
+    <div class="periods">
+      <fieldset><legend>Исследуемый период</legend><label>С <input id="start" type="date"></label><label>До, не включая <input id="end" type="date"></label></fieldset>
+      <fieldset><legend>Период сравнения</legend><label>С <input id="baselineStart" type="date"></label><label>До, не включая <input id="baselineEnd" type="date"></label></fieldset>
+    </div>
+    <p class="hint">Без дат агент запросит уточнение. Даты в форме — подтверждённый контекст; при смене вопроса проверьте их.</p>
+    <button class="primary" id="submit" type="submit">Исследовать <span aria-hidden="true">↗</span></button>
+  </form>
+  <section id="output" hidden aria-live="polite"><div class="section-title"><h2>Результат исследования</h2><span id="status"></span></div><p class="hint">Наблюдения сформированы из расчётов. Модель выбирает инструменты и может пропустить нужный разрез. Complete означает завершение цикла, а не полноту исследования. Demo выполняет фиксированный сценарий.</p><div id="answer"></div><div id="tables"></div><h2>Журнал инструментов</h2><p class="hint">Аргументы, результаты и ошибки каждого вызова. Содержимое доступно для проверки.</p><div id="trace"></div></section>
+  <footer>Учебный набор · UTC · Конверсия visit → paid · Без персональных данных</footer>
+</main>
+</body></html>
